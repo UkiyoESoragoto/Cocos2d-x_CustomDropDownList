@@ -1,4 +1,5 @@
 #include "HelloWorldScene.h"
+#include "DropDownList.h"
 
 USING_NS_CC;
 
@@ -35,8 +36,7 @@ bool HelloWorld::init()
     //    you may modify it.
 
     // add a "close" icon to exit the progress. it's an autorelease object
-    auto closeItem = MenuItemImage::create(
-                                           "CloseNormal.png",
+    auto closeItem = MenuItemImage::create("CloseNormal.png",
                                            "CloseSelected.png",
                                            CC_CALLBACK_1(HelloWorld::menuCloseCallback, this));
     
@@ -57,11 +57,38 @@ bool HelloWorld::init()
     auto label = LabelTTF::create("Hello World", "Arial", 24);
     
     // position the label on the center of the screen
-    label->setPosition(Vec2(origin.x + visibleSize.width/2,
-                            origin.y + visibleSize.height - label->getContentSize().height));
+//    label->setPosition(Vec2(origin.x + visibleSize.width/2,
+//                            origin.y + visibleSize.height - label->getContentSize().height));
+    auto boxSize = Size(80.0,
+                        30.0);
+    
+    auto pListBox = CustomDropDownListBox::DropDownList::create(label,
+                                                                boxSize);
+    
+    auto pLabel1 = LabelTTF::create("hello",
+                                    "Arial",
+                                    22);
+    pListBox->addLabel(pLabel1);
+    
+    auto pLabel2 = LabelTTF::create("world",
+                                    "Arial",
+                                    22);
+    pListBox->addLabel(pLabel2);
+    
+    auto pLabel3 = LabelTTF::create("hello",
+                                    "Arial",
+                                    22);
+    pListBox->addLabel(pLabel3);
+    
+    pListBox->setPosition(200,
+                          300);
+    
+    this->addChild(pListBox,
+                   2);
+    
 
     // add the label as a child to this layer
-    this->addChild(label, 1);
+//    this->addChild(label, 1);
 
     // add "HelloWorld" splash screen"
     auto sprite = Sprite::create("HelloWorld.png");
@@ -71,6 +98,7 @@ bool HelloWorld::init()
 
     // add the sprite as a child to this layer
     this->addChild(sprite, 0);
+    
     
     return true;
 }
