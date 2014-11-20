@@ -36,6 +36,7 @@ Thumbs.db
 
 #Java
 *.class
+*.java
 
 # XCode
 *.moved-aside
