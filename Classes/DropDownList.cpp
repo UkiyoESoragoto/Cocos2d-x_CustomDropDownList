@@ -15,78 +15,88 @@ USING_NS_CC;
 NS_CC_BEGIN
 
 namespace CustomDropDownListBox {
-    DropDownList::DropDownList(LabelTTF *pLable,
+    DropDownList::DropDownList(LabelTTF *lable,
                                Size size) :
-    pShowLable(pLable),
-    isShowingMenu(false),
-    lastSelectedIndex(0)
+    show_lable_(lable),
+    is_showing_menu_(false),
+    
+    last_selected_index_(0)
     {
-        pMainMenu = Menu::create();
-        pMainMenu->setPosition(Point(size.width / 2,
+        main_menu_ = Menu::create();
+        main_menu_->setPosition(Point(size.width / 2,
                                      size.height / 2));
-        pMainMenu->setColor(DROPDOWNLIST_NORMAL_COLOR3);
-        pMainMenu->retain();
+        main_menu_->setColor(kDropDownListNormalColor3B);
+        main_menu_->retain();
         
-        pShowLable->setPosition(Point(size.width / 2,
+        show_lable_->setPosition(Point(size.width / 2,
                                       size.height / 2));
-        pShowLable->setColor(DROPDOWNLIST_NORMAL_COLOR3);
+        show_lable_->setColor(kDropDownListNormalColor3B);
         
-        this->addChild(pShowLable);
+        this->addChild(show_lable_);
         this->setContentSize(size);
     }//DropDownList::DropDownList
     
     DropDownList::~DropDownList() {};
     
-    DropDownList *DropDownList::create(LabelTTF *pLabel,
+    bool DropDownList::init()
+    {
+        listener_touch_ = EventListenerTouchOneByOne::create();
+        listener_touch_->onTouchBegan = CC_CALLBACK_2(DropDownList::onTouchBegan,
+                                                      this);
+        _eventDispatcher->addEventListenerWithSceneGraphPriority(listener_touch_,
+                                                                 this);
+        log("init");
+        return true;
+    }
+    
+    DropDownList *DropDownList::Create(LabelTTF *label,
                                        Size size)
     {
-        auto *pList = new DropDownList(pLabel,
+        auto *list = new DropDownList(label,
                                        size);
-        pList->autorelease();
+        list->autorelease();
                 
-        return pList;
+        return list;
     }//DropDownList *DropDownList::create
     
-    std::string DropDownList::getString()
+    std::string DropDownList::GetString()
     {
-        return pShowLable->getString();
-    }//DropDownList::getString
+        return show_lable_->getString();
+    }//DropDownList::GetString
     
-    int DropDownList::getSelectedIndex()
+    int DropDownList::GetSelectedIndex()
     {
-        return lastSelectedIndex;
+        return last_selected_index_;
     }//DropDownList::getSelectedIndex
     
-    void DropDownList::setSelectedIndex(int index)
+    void DropDownList::SetSelectedIndex(int index)
     {
-        lastSelectedIndex = index;
+        last_selected_index_ = index;
         
-        for (int i = 0, j = (int)selectLables.size(); i < j; i++)
+        for (int i = 0, j = (int)select_lables_.size(); i < j; i++)
         {
-            if ( lastSelectedIndex == i)
+            if ( last_selected_index_ == i)
             {
-                bgLayers[i]->setColor(DROPDOWNLIST_SELECTED_COLOR3);
-                pShowLable->setString(selectLables[i]->getString());
+                bg_layers_[i]->setColor(kDropDownListSelectedColor3B);
+                show_lable_->setString(select_lables_[i]->getString());
             }
             else
             {
-                bgLayers[i]->setColor(DROPDOWNLIST_NORMAL_COLOR3);
+                bg_layers_[i]->setColor(kDropDownListNormalColor3B);
             }
         }
     }//DropDownList::setSelectedIndex
     
-    void DropDownList::onEnter()
+//    void DropDownList::OnEnter()
+//    {
+//        setTouchEnabled(true);
+//        Layer::onEnter();
+//    }//DropDownList::onEnter
+    
+    bool DropDownList::onTouchBegan(Touch *touch,
+                                  Event *event)
     {
-        setTouchEnabled(true);
-        Layer::onEnter();
-    }//DropDownList::onEnter
-    
-    
-    
-    bool DropDownList::touchBegan(Touch *pTouch,
-                                  Event *pEvent)
-    {
-        auto locInView = pTouch->getLocationInView();
+        auto locInView = touch->getLocationInView();
         auto location = Director::sharedDirector()->convertToGL(locInView);
         
         CCLOG("BEGAN----------");
@@ -94,33 +104,33 @@ namespace CustomDropDownListBox {
               location.x,
               location.y);
         
-        if (false == isShowingMenu)
+        if (false == is_showing_menu_)
         {
-            Rect showRect;
-            showRect.origin = this->getPosition();
-            showRect.size = this->getContentSize();
+            Rect show_rect;
+            show_rect.origin = this->getPosition();
+            show_rect.size = this->getContentSize();
             
-            if (showRect.containsPoint(location))
+            if (show_rect.containsPoint(location))
             {
-                isShowingMenu = true;
-                addChild(pMainMenu);
+                is_showing_menu_ = true;
+                addChild(main_menu_);
                 
-                for (int i = 0, j = (int)selectLables.size(); i < j; i++)
+                for (int i = 0, j = (int)select_lables_.size(); i < j; i++)
                 {
-                    if ( lastSelectedIndex == i)
+                    if ( last_selected_index_ == i)
                     {
-                        bgLayers[i]->setColor(DROPDOWNLIST_HIGHLIGHT_COLOR3);
+                        bg_layers_[i]->setColor(kDropDownListHighlightColor3B);
                     }
                     else
                     {
-                        bgLayers[i]->setColor(DROPDOWNLIST_NORMAL_COLOR3);
+                        bg_layers_[i]->setColor(kDropDownListNormalColor3B);
                     }
                 }
                 return true;
             }
         }
         
-        if (true == isShowingMenu)
+        if (true == is_showing_menu_)
         {
             Rect listRect;
             listRect.origin = this->getPosition();
@@ -128,61 +138,61 @@ namespace CustomDropDownListBox {
             
             if (!listRect.containsPoint(location))
             {
-                onClose();
+                OnClose();
             }
         }
         
         return false;
     }//DropDownList::touchBegan
     
-    void DropDownList::addLabel(LabelTTF *pLabel)
+    void DropDownList::AddLabel(LabelTTF *label)
     {
         auto size = getContentSize();
-        auto *pNormalColor = LayerColor::create(DROPDOWNLIST_NORMAL_COLOR,
+        auto *normal_color = LayerColor::create(kDropDownListNormalColor4B,
                                                 size.width,
                                                 size.height);
-        auto *pSelectedColor = LayerColor::create(DROPDOWNLIST_SELECTED_COLOR,
+        auto *pSelectedColor = LayerColor::create(kDropDownListSelectedColor4B,
                                                   size.width,
                                                   size.height);
         
-        bgLayers.push_back(pNormalColor);
-        selectLables.push_back(pLabel);
+        bg_layers_.push_back(normal_color);
+        select_lables_.push_back(label);
         
-        auto item = MenuItemSprite::create(pNormalColor,
+        auto item = MenuItemSprite::create(normal_color,
                                            pSelectedColor,
                                            NULL,
                                            this,
-                                           SEL_MenuHandler(&DropDownList::onSelected));
+                                           SEL_MenuHandler(&DropDownList::OnSelected));
         
-        pLabel->setPosition(Point(size.width / 2,
+        label->setPosition(Point(size.width / 2,
                                   size.height / 2));
-        item->addChild(pLabel);
-        item->setTag((int)selectLables.size() - 1);
+        item->addChild(label);
+        item->setTag((int)select_lables_.size() - 1);
         item->setPosition(0,
-                          -(int)selectLables.size() * size.height);
+                          -(int)select_lables_.size() * size.height);
         
-        pMainMenu->addChild(item);
+        main_menu_->addChild(item);
         
     }//DropDownList::addLabel
     
-    void DropDownList::onSelected(Object *pSender)
+    void DropDownList::OnSelected(Object *sender)
     {
-        auto item = dynamic_cast<MenuItem *>(pSender);
+        auto item = dynamic_cast<MenuItem *>(sender);
         
         if (item)
         {
-            lastSelectedIndex = item->getTag();
-            pShowLable->setString(selectLables[item->getTag()]->getString());
+            last_selected_index_ = item->getTag();
+            show_lable_->setString(select_lables_[item->getTag()]->getString());
         }
         
-        onClose();
+        OnClose();
     }//DropDownList::onSelected
     
-    void DropDownList::onClose()
+    void DropDownList::OnClose()
     {
-        removeChild(pMainMenu,
+        removeChild(main_menu_,
                     true);
-        isShowingMenu = false;
+        is_showing_menu_ = false;
     }//DropDownList::onClose
 }//namespace CustomDropDownListBox
 

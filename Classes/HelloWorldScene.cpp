@@ -28,7 +28,7 @@ bool HelloWorld::init()
         return false;
     }
     
-    Size visibleSize = Director::getInstance()->getVisibleSize();
+    Size visible_size = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
     /////////////////////////////
@@ -36,15 +36,15 @@ bool HelloWorld::init()
     //    you may modify it.
 
     // add a "close" icon to exit the progress. it's an autorelease object
-    auto closeItem = MenuItemImage::create("CloseNormal.png",
-                                           "CloseSelected.png",
-                                           CC_CALLBACK_1(HelloWorld::menuCloseCallback, this));
+    auto close_item = MenuItemImage::create("CloseNormal.png",
+                                            "CloseSelected.png",
+                                            CC_CALLBACK_1(HelloWorld::menuCloseCallback, this));
     
-	closeItem->setPosition(Vec2(origin.x + visibleSize.width - closeItem->getContentSize().width/2 ,
-                                origin.y + closeItem->getContentSize().height/2));
+	close_item->setPosition(Vec2(origin.x + visible_size.width - close_item->getContentSize().width/2 ,
+                                 origin.y + close_item->getContentSize().height/2));
 
     // create menu, it's an autorelease object
-    auto menu = Menu::create(closeItem, NULL);
+    auto menu = Menu::create(close_item, NULL);
     menu->setPosition(Vec2::ZERO);
     this->addChild(menu, 1);
 
@@ -54,50 +54,52 @@ bool HelloWorld::init()
     // add a label shows "Hello World"
     // create and initialize a label
     
-    auto label = LabelTTF::create("Hello World", "Arial", 24);
+    auto label = LabelTTF::create("请问魏钲是什么？", "Arial", 24);
     
     // position the label on the center of the screen
-//    label->setPosition(Vec2(origin.x + visibleSize.width/2,
-//                            origin.y + visibleSize.height - label->getContentSize().height));
-    auto boxSize = Size(80.0,
-                        30.0);
+//    label->setPosition(Vec2(origin.x + visible_size.width/2,
+//                            origin.y + visible_size.height - label->getContentSize().height));
+    auto box_size = Size(80.0,
+                         30.0);
     
-    auto pListBox = CustomDropDownListBox::DropDownList::create(label,
-                                                                boxSize);
+    auto list_box = CustomDropDownListBox::DropDownList::Create(label,
+                                                                box_size);
     
-    auto pLabel1 = LabelTTF::create("hello",
-                                    "Arial",
-                                    22);
-    pListBox->addLabel(pLabel1);
+    auto label1 = LabelTTF::create("是基佬",
+                                   "Arial",
+                                   22);
+    list_box->AddLabel(label1);
     
-    auto pLabel2 = LabelTTF::create("world",
-                                    "Arial",
-                                    22);
-    pListBox->addLabel(pLabel2);
+    auto label2 = LabelTTF::create("是基佬！",
+                                   "Arial",
+                                   22);
+    list_box->AddLabel(label2);
     
-    auto pLabel3 = LabelTTF::create("hello",
-                                    "Arial",
-                                    22);
-    pListBox->addLabel(pLabel3);
+    auto label3 = LabelTTF::create("都说了是基佬你不无聊么！",
+                                   "Arial",
+                                   22);
+    list_box->AddLabel(label3);
     
-    pListBox->setPosition(200,
+    list_box->setPosition(200,
                           300);
     
-    this->addChild(pListBox,
+    this->addChild(list_box,
                    2);
     
+    list_box->init();
 
     // add the label as a child to this layer
 //    this->addChild(label, 1);
-
-    // add "HelloWorld" splash screen"
-    auto sprite = Sprite::create("HelloWorld.png");
-
-    // position the sprite on the center of the screen
-    sprite->setPosition(Vec2(visibleSize.width/2 + origin.x, visibleSize.height/2 + origin.y));
-
-    // add the sprite as a child to this layer
-    this->addChild(sprite, 0);
+//
+//    // add "HelloWorld" splash screen"
+//    auto sprite = Sprite::create("HelloWorld.png");
+//
+//    // position the sprite on the center of the screen
+//    sprite->setPosition(Vec2(visible_size.width/2 + origin.x, visible_size.height/2 + origin.y));
+//
+//    // add the sprite as a child to this layer
+//    this->addChild(sprite, 0);
+    
     
     
     return true;
