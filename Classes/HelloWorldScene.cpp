@@ -54,15 +54,24 @@ bool HelloWorld::init()
     // add a label shows "Hello World"
     // create and initialize a label
     
-    auto label = LabelTTF::create("Make a Choice", "Arial", 24);
-    
-    auto box_size = Size(100.0,
+    //创建一个label作为下拉菜单的默认选项
+    auto label = LabelTTF::create("Make a Choice",
+                                  "Arial",
+                                  24);
+    //设置大小
+    auto box_size = Size(200.0,
                          30.0);
     
+    //
     auto list_box = CustomDropDownListBox::DropDownList::Create(label,
                                                                 box_size);
     
     //添加一堆label进去
+    
+    auto label0 = LabelTTF::create("Make a Choice",
+                                   "Arial",
+                                   22);
+    list_box->AddLabel(label0);    
     auto label1 = LabelTTF::create("IOS",
                                    "Arial",
                                    22);
@@ -75,8 +84,6 @@ bool HelloWorld::init()
                                    "Arial",
                                    22);
     list_box->AddLabel(label3);
-    list_box->setPosition(200,
-                          300);
     
     // 设置位置
     list_box->setPosition(Vec2(origin.x + visible_size.width / 2 - list_box->getContentSize().width / 2,
@@ -85,9 +92,9 @@ bool HelloWorld::init()
     this->addChild(list_box,
                    2);
     
-    //很奇特的调用，目前看来是必须的，还不太了解init()函数的机制。难道不该是自动的么魂淡
-    list_box->init();
-
+    //启动监听
+    list_box->OpenListener();
+    
     return true;
 }
 

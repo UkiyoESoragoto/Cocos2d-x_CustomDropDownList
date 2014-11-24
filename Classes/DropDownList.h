@@ -58,7 +58,7 @@ namespace CustomDropDownListBox
         ///<summary>
         ///初始化
         ///</summary>
-        virtual bool init();
+        void OpenListener();
         
         ///<summary>
         ///创建实例对象
@@ -85,12 +85,20 @@ namespace CustomDropDownListBox
         void SetSelectedIndex(int index);
         
         ///<summary>
-        ///触碰后的处理
+        ///开始触摸
         ///</summary>
         ///<parm name = "*touch">触摸对象</parm>
         ///<parm name = "*event">触摸事件</parm>
         virtual bool onTouchBegan(Touch *touch,
-                                Event *event);
+                                  Event *event);
+        
+        ///<summary>
+        ///结束触摸
+        ///</summary>
+        ///<parm name = "*touch">触摸对象</parm>
+        ///<parm name = "*event">触摸事件</parm>
+        void onTouchEnded(Touch *touch,
+                          Event *event);
         
         ///<summary>
         ///添加新的Label以冒充下拉菜单
@@ -111,8 +119,8 @@ namespace CustomDropDownListBox
         
     private:
         Menu *main_menu_;    //下拉选项列表的集合
-        LabelTTF *show_lable_;   //显示选中的结果
-        std::vector<LabelTTF *> select_lables_;   //用来冒充下拉列表的label们
+        LabelTTF *show_label_;   //显示选中的结果
+        std::vector<LabelTTF *> select_labels_;   //用来冒充下拉列表的label们
         std::vector<LayerColor *> bg_layers_; //用于设置背景颜色
         bool is_showing_menu_; //是否已显示了下拉列表
         int last_selected_index_;  //选中下拉列表的index
