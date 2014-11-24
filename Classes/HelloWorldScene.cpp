@@ -56,32 +56,31 @@ bool HelloWorld::init()
     
     auto label = LabelTTF::create("Make a Choice", "Arial", 24);
     
-    // position the label on the center of the screen
-//    label->setPosition(Vec2(origin.x + visible_size.width/2,
-//                            origin.y + visible_size.height - label->getContentSize().height));
     auto box_size = Size(100.0,
                          30.0);
     
     auto list_box = CustomDropDownListBox::DropDownList::Create(label,
                                                                 box_size);
     
+    //添加一堆label进去
     auto label1 = LabelTTF::create("IOS",
                                    "Arial",
                                    22);
     list_box->AddLabel(label1);
-    
     auto label2 = LabelTTF::create("Android",
                                    "Arial",
                                    22);
     list_box->AddLabel(label2);
-    
     auto label3 = LabelTTF::create("Windows Phone",
                                    "Arial",
                                    22);
     list_box->AddLabel(label3);
-    
     list_box->setPosition(200,
                           300);
+    
+    // 设置位置
+    list_box->setPosition(Vec2(origin.x + visible_size.width / 2 - list_box->getContentSize().width / 2,
+                               origin.y + visible_size.height / 2 - list_box->getContentSize().height / 2));
     
     this->addChild(list_box,
                    2);
