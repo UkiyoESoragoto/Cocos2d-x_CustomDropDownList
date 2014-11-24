@@ -40,6 +40,11 @@ namespace CustomDropDownListBox {
     
     bool DropDownList::init()
     {
+        if ( !Layer::init() )
+        {
+            return false;
+        }
+        
         listener_touch_ = EventListenerTouchOneByOne::create();
         listener_touch_->onTouchBegan = CC_CALLBACK_2(DropDownList::onTouchBegan,
                                                       this);
@@ -86,13 +91,7 @@ namespace CustomDropDownListBox {
             }
         }
     }//DropDownList::setSelectedIndex
-    
-//    void DropDownList::OnEnter()
-//    {
-//        setTouchEnabled(true);
-//        Layer::onEnter();
-//    }//DropDownList::onEnter
-    
+        
     bool DropDownList::onTouchBegan(Touch *touch,
                                   Event *event)
     {
@@ -132,11 +131,11 @@ namespace CustomDropDownListBox {
         
         if (true == is_showing_menu_)
         {
-            Rect listRect;
-            listRect.origin = this->getPosition();
-            listRect.size = this->getContentSize();
+            Rect list_rect;
+            list_rect.origin = this->getPosition();
+            list_rect.size = this->getContentSize();
             
-            if (!listRect.containsPoint(location))
+            if (!list_rect.containsPoint(location))
             {
                 OnClose();
             }

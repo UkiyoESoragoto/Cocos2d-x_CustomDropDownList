@@ -54,28 +54,28 @@ bool HelloWorld::init()
     // add a label shows "Hello World"
     // create and initialize a label
     
-    auto label = LabelTTF::create("请问魏钲是什么？", "Arial", 24);
+    auto label = LabelTTF::create("Make a Choice", "Arial", 24);
     
     // position the label on the center of the screen
 //    label->setPosition(Vec2(origin.x + visible_size.width/2,
 //                            origin.y + visible_size.height - label->getContentSize().height));
-    auto box_size = Size(80.0,
+    auto box_size = Size(100.0,
                          30.0);
     
     auto list_box = CustomDropDownListBox::DropDownList::Create(label,
                                                                 box_size);
     
-    auto label1 = LabelTTF::create("是基佬",
+    auto label1 = LabelTTF::create("IOS",
                                    "Arial",
                                    22);
     list_box->AddLabel(label1);
     
-    auto label2 = LabelTTF::create("是基佬！",
+    auto label2 = LabelTTF::create("Android",
                                    "Arial",
                                    22);
     list_box->AddLabel(label2);
     
-    auto label3 = LabelTTF::create("都说了是基佬你不无聊么！",
+    auto label3 = LabelTTF::create("Windows Phone",
                                    "Arial",
                                    22);
     list_box->AddLabel(label3);
@@ -86,22 +86,9 @@ bool HelloWorld::init()
     this->addChild(list_box,
                    2);
     
+    //很奇特的调用，目前看来是必须的，还不太了解init()函数的机制。难道不该是自动的么魂淡
     list_box->init();
 
-    // add the label as a child to this layer
-//    this->addChild(label, 1);
-//
-//    // add "HelloWorld" splash screen"
-//    auto sprite = Sprite::create("HelloWorld.png");
-//
-//    // position the sprite on the center of the screen
-//    sprite->setPosition(Vec2(visible_size.width/2 + origin.x, visible_size.height/2 + origin.y));
-//
-//    // add the sprite as a child to this layer
-//    this->addChild(sprite, 0);
-    
-    
-    
     return true;
 }
 

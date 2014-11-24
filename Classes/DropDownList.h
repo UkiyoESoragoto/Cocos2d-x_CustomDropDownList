@@ -56,16 +56,15 @@ namespace CustomDropDownListBox
         ~DropDownList();
         
         ///<summary>
-        ///
+        ///初始化
         ///</summary>
-        ///<parm name = ""></parm>
         virtual bool init();
         
         ///<summary>
         ///创建实例对象
         ///</summary>
-        ///<parm name = "*label"></parm>
-        ///<parm name = "size"></parm>
+        ///<parm name = "*label">添加一个label作为默认显示</parm>
+        ///<parm name = "size">默认尺寸</parm>
         static DropDownList * Create(LabelTTF *label,
                                      Size size);
         
@@ -77,44 +76,37 @@ namespace CustomDropDownListBox
         ///<summary>
         ///获取选中的index
         ///</summary>
-        ///<parm name = ""></parm>
         int GetSelectedIndex();
         
         ///<summary>
-        ///设置选中的index
+        ///设置选中的对象
         ///</summary>
-        ///<parm name = "index"></parm>
+        ///<parm name = "index">对象的index值</parm>
         void SetSelectedIndex(int index);
         
-//        ///<summary>
-//        ///
-//        ///</summary>
-//        ///<parm name = ""></parm>
-//        void OnEnter();
-        
         ///<summary>
-        ///
+        ///触碰后的处理
         ///</summary>
-        ///<parm name = ""></parm>
+        ///<parm name = "*touch">触摸对象</parm>
+        ///<parm name = "*event">触摸事件</parm>
         virtual bool onTouchBegan(Touch *touch,
                                 Event *event);
         
         ///<summary>
         ///添加新的Label以冒充下拉菜单
         ///</summary>
-        ///<parm name = ""></parm>
-        void AddLabel(LabelTTF *lable);
+        ///<parm name = "*label">冒充菜单用的label素材</parm>
+        void AddLabel(LabelTTF *label);
         
         ///<summary>
         ///下拉列表中的项被选中
         ///</summary>
-        ///<parm name = ""></parm>
+        ///<parm name = "*sender">被点击的的对象</parm>
         void OnSelected(Object *sender);
         
         ///<summary>
         ///关闭下拉列表
         ///</summary>
-        ///<parm name = ""></parm>
         void OnClose();
         
     private:
