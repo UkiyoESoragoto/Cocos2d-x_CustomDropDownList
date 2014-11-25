@@ -16,24 +16,34 @@ NS_CC_BEGIN
 
 namespace CustomDropDownListBox {
     DropDownList::DropDownList(LabelTTF *label,
-                               Size size) :
+                               Size show_label_size,
+                               Size main_menu_cell_size) :
     show_label_(label),
-    is_showing_menu_(false),
+    is_need_show_menu_(false),
     last_selected_index_(0)
     {
+        show_label_size_ = show_label_size;
+        main_menu_cell_size_ = main_menu_cell_size;
+        
         main_menu_ = Menu::create();
-        main_menu_->setPosition(Point(size.width / 2,
-                                      size.height / 2));
+//        main_menu_->setPosition(Point(show_label_size_.width / 2,
+//                                      show_label_size_.height / 2));
+        CustomSetPosition(main_menu_,
+                    Point(0,
+                          0));
         main_menu_->setColor(kDropDownListNormalColor3B);
         main_menu_->retain();
         
-        show_label_->setPosition(Point(size.width / 2,
-                                       size.height / 2));
+//        show_label_->setPosition(Point(show_label_size_.width / 2,
+//                                       show_label_size_.height / 2));
+        CustomSetPosition(show_label_,
+                    Point(0,
+                          0));
         show_label_->setColor(kDropDownListNormalColor3B);
         
         this->addChild(show_label_);
-//        AddLabel(show_label_);
-        this->setContentSize(size);
+        
+        this->setContentSize(show_label_size_);
     }//DropDownList::DropDownList
     
     DropDownList::~DropDownList() {};
@@ -53,12 +63,13 @@ namespace CustomDropDownListBox {
     }//DropDownList::OpenListener
     
     DropDownList *DropDownList::Create(LabelTTF *label,
-                                       Size size)
+                                       Size show_label_size,
+                                       Size main_menu_cell_size)
     {
         auto *list = new DropDownList(label,
-                                      size);
-//        list->AddLabel(label);
-        
+                                      show_label_size,
+                                      main_menu_cell_size);
+        list->autorelease();
         return list;
     }//*DropDownList::create
     
@@ -74,17 +85,19 @@ namespace CustomDropDownListBox {
     
     void DropDownList::SetSelectedIndex(int index)
     {
-        last_selected_index_ = index;
+        last_selected_index_ = index;//获取被选中对象的index参数
         
+        //遍历所有元素
         for (int i = 0, j = (int)select_labels_.size(); i < j; i++)
         {
+            //根据index的值判断是否是被选中的对象
             if ( last_selected_index_ == i)
-            {
+            {//如果是被选中的对象，则设置其背景色为被选中的颜色，并且传回该对象的string值(显示的内容)
                 bg_layers_[i]->setColor(kDropDownListSelectedColor3B);
                 show_label_->setString(select_labels_[i]->getString());
             }
             else
-            {
+            {//如果不是被选中的对象，则设置嘁背景色为普通颜色
                 bg_layers_[i]->setColor(kDropDownListNormalColor3B);
             }
         }
@@ -93,20 +106,24 @@ namespace CustomDropDownListBox {
     bool DropDownList::onTouchBegan(Touch *touch,
                                   Event *event)
     {
+        //获取点击位置
         auto locInView = touch->getLocationInView();
         auto location = Director::sharedDirector()->convertToGL(locInView);
         
+        //控制台输出被点击的位置
         log("BEGAN----------");
         log("location: %f, %f",
             location.x,
             location.y);
         
-        if (false == is_showing_menu_)
-        {
+        //判断菜单是否需要显示
+        if (false == is_need_show_menu_)
+        {//菜单不需要显示的场合
             Rect show_rect;
-            show_rect.origin = this->getPosition();
-            show_rect.size = getContentSize();
+            show_rect.origin = this->getPosition();//获取显示区的Position
+            show_rect.size = show_label_size_;//获取显示区的Size
             
+            //输出到控制台
             log("rect----------");
             log("location: %f, %f",
                 show_rect.origin.x,
@@ -115,33 +132,23 @@ namespace CustomDropDownListBox {
                 show_rect.size.width,
                 show_rect.size.height);
             
+            //判断触摸点的Position是否在显示区内
             if (show_rect.containsPoint(location))
-            {
-                is_showing_menu_ = true;
-                for (int i = 0, j = (int)select_labels_.size(); i < j; i++)
-                {
-                    if (last_selected_index_ == i)
-                    {
-                        bg_layers_[i]->setColor(kDropDownListHighlightColor3B);
-                    }
-                    else
-                    {
-                        bg_layers_[i]->setColor(kDropDownListNormalColor3B);
-                    }
-                }
+            {//点击位置在显示区内的场合，即需要显示菜单
+                is_need_show_menu_ = true;//设置状态为需要显示菜单
                 return true;
             }
         }
-        
-        if (true == is_showing_menu_)
-        {
+        else
+        {//菜单需要显示的场合(包含可能已经显示了菜单的状态)
             Rect list_rect;
             list_rect.origin = this->getPosition();
-            list_rect.size = this->getContentSize();
+            list_rect.size = show_label_size_;
             
+            //判断触摸点的Position是否在显示区外
             if (!list_rect.containsPoint(location))
-            {
-                OnClose();
+            {//点击位置不在显示区内的场合
+                OnClose();//关闭main_menu_
             }
         }
         
@@ -151,40 +158,53 @@ namespace CustomDropDownListBox {
     void DropDownList::onTouchEnded(cocos2d::Touch *touch,
                                     cocos2d::Event *event)
     {
-        if (true == is_showing_menu_)
+        //判断是否需要显示菜单
+        if (true == is_need_show_menu_)
         {
-//            main_menu_->setPosition(Vec2(0,
-//                                         0));
+            //遍历元素以上色
+            for (int i = 0, j = (int)select_labels_.size(); i < j; i++)
+            {
+                //判断出上一次选择的对象
+                if (last_selected_index_ == i)
+                {//当前元素是上次选中的对象的场合
+                    bg_layers_[i]->setColor(kDropDownListHighlightColor3B);//上色高亮
+                }
+                else
+                {//普通元素的场合
+                    bg_layers_[i]->setColor(kDropDownListNormalColor3B);
+                }
+            }
+            //添加到场景以显示
             addChild(main_menu_);
         }
     }//DropDownList::onTouchEnded
     
     void DropDownList::AddLabel(LabelTTF *label)
     {
-        auto size = getContentSize();
         auto *normal_color = LayerColor::create(kDropDownListNormalColor4B,
-                                                size.width,
-                                                size.height);
+                                                main_menu_cell_size_.width,
+                                                main_menu_cell_size_.height);
         auto *pSelectedColor = LayerColor::create(kDropDownListSelectedColor4B,
-                                                  size.width,
-                                                  size.height);
-        
+                                                  main_menu_cell_size_.width,
+                                                  main_menu_cell_size_.height);
+        //std::vector::push_back
         bg_layers_.push_back(normal_color);
         select_labels_.push_back(label);
         
+        //生成main_menu_的元素
         auto item = MenuItemSprite::create(normal_color,
                                            pSelectedColor,
                                            NULL,
                                            this,
                                            SEL_MenuHandler(&DropDownList::OnSelected));
         
-        label->setPosition(Point(size.width / 2,
-                                  size.height / 2));
+        label->setPosition(Point(main_menu_cell_size_.width / 2,
+                                  main_menu_cell_size_.height / 2));
         item->addChild(label);
-        //select_labels_是向量，因此select_labels_.size()表示其包含元素的个数
+        //select_labels_是向量，select_labels_.size()表示其包含元素的个数
         item->setTag((int)select_labels_.size() - 1);
         item->setPosition(0,
-                          - (int)select_labels_.size() * size.height);
+                          - (int)select_labels_.size() * main_menu_cell_size_.height);
         
         main_menu_->addChild(item);
     }//DropDownList::AddLabel
@@ -198,7 +218,6 @@ namespace CustomDropDownListBox {
             last_selected_index_ = item->getTag();
             show_label_->setString(select_labels_[item->getTag()]->getString());
         }
-        
         OnClose();
     }//DropDownList::OnSelected
     
@@ -206,8 +225,16 @@ namespace CustomDropDownListBox {
     {
         removeChild(main_menu_,
                     true);
-        is_showing_menu_ = false;
+        is_need_show_menu_ = false;
     }//DropDownList::OnClose
+    
+    //手动写Position设置方法……不想改锚点
+    void DropDownList::CustomSetPosition(Node *node,
+                                   Point point)
+    {
+        node->setPosition(Point(point.x + show_label_size_.width / 2,
+                                point.y + show_label_size_.height / 2));
+    }//DropDownList::CustomSetPosition
 }//namespace CustomDropDownListBox
 
 NS_CC_END

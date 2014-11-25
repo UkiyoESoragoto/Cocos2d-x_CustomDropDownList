@@ -38,10 +38,12 @@ bool HelloWorld::init()
     // add a "close" icon to exit the progress. it's an autorelease object
     auto close_item = MenuItemImage::create("CloseNormal.png",
                                             "CloseSelected.png",
-                                            CC_CALLBACK_1(HelloWorld::menuCloseCallback, this));
+                                            CC_CALLBACK_1(HelloWorld::menuCloseCallback,
+                                                          this));
     
-	close_item->setPosition(Vec2(origin.x + visible_size.width - close_item->getContentSize().width/2 ,
-                                 origin.y + close_item->getContentSize().height/2));
+	close_item->setPosition(
+        Vec2(origin.x + visible_size.width - close_item->getContentSize().width/2 ,
+             origin.y + close_item->getContentSize().height/2));
 
     // create menu, it's an autorelease object
     auto menu = Menu::create(close_item, NULL);
@@ -64,14 +66,15 @@ bool HelloWorld::init()
     
     //
     auto list_box = CustomDropDownListBox::DropDownList::Create(label,
-                                                                box_size);
+                                                                box_size,
+                                                                Size(300,
+                                                                     30));
     
     //添加一堆label进去
-    
     auto label0 = LabelTTF::create("Make a Choice",
                                    "Arial",
                                    22);
-    list_box->AddLabel(label0);    
+    list_box->AddLabel(label0);//不知道怎么把默认显示的label添加到选项里，只好再添加一个
     auto label1 = LabelTTF::create("IOS",
                                    "Arial",
                                    22);
@@ -86,8 +89,9 @@ bool HelloWorld::init()
     list_box->AddLabel(label3);
     
     // 设置位置
-    list_box->setPosition(Vec2(origin.x + visible_size.width / 2 - list_box->getContentSize().width / 2,
-                               origin.y + visible_size.height / 2 - list_box->getContentSize().height / 2));
+    list_box->setPosition(
+        Vec2(origin.x + visible_size.width / 2 - list_box->getContentSize().width / 2,
+             origin.y + visible_size.height / 2 - list_box->getContentSize().height / 2));
     
     this->addChild(list_box,
                    2);

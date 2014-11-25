@@ -46,13 +46,17 @@ namespace CustomDropDownListBox
     const auto kDropDownListHighlightColor3B = Color3B(0,
                                                        0,
                                                        225);
+    const auto kColorWhite = Color3B(255,
+                                     255,
+                                     255);
     
     //声明对象
     class DropDownList : public Layer
     {
     public:
         DropDownList(LabelTTF *label,
-                     Size size);
+                     Size show_label_size,
+                     Size main_menu_cell_size);
         ~DropDownList();
         
         ///<summary>
@@ -66,7 +70,8 @@ namespace CustomDropDownListBox
         ///<parm name = "*label">添加一个label作为默认显示</parm>
         ///<parm name = "size">默认尺寸</parm>
         static DropDownList * Create(LabelTTF *label,
-                                     Size size);
+                                     Size show_label_size,
+                                     Size main_menu_cell_size);
         
         ///<summary>
         ///获取选中对象的string
@@ -112,18 +117,29 @@ namespace CustomDropDownListBox
         ///<parm name = "*sender">被点击的的对象</parm>
         void OnSelected(Object *sender);
         
+        
+        
         ///<summary>
         ///关闭下拉列表
         ///</summary>
         void OnClose();
         
+        ///<summary>
+        ///自定义的位置设置
+        ///</summary>
+        ///<parm name = "*sender">被点击的的对象</parm>
+        void CustomSetPosition(Node *node,
+                         Point point);
+        
     private:
         Menu *main_menu_;    //下拉选项列表的集合
-        LabelTTF *show_label_;   //显示选中的结果
+        LabelTTF *show_label_;   //对显示区用label
         std::vector<LabelTTF *> select_labels_;   //用来冒充下拉列表的label们
         std::vector<LayerColor *> bg_layers_; //用于设置背景颜色
-        bool is_showing_menu_; //是否已显示了下拉列表
+        bool is_need_show_menu_; //是否已显示了下拉列表
         int last_selected_index_;  //选中下拉列表的index
+        Size main_menu_cell_size_;   //菜单包含项的Size
+        Size show_label_size_;  //对显示区用label的占地面积
     
         EventListenerTouchOneByOne *listener_touch_;
     };//class DropDownList : public Layer
