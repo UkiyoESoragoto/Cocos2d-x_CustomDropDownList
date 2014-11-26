@@ -117,8 +117,6 @@ namespace CustomDropDownListBox
         ///<parm name = "*sender">被点击的的对象</parm>
         void OnSelected(Object *sender);
         
-        
-        
         ///<summary>
         ///关闭下拉列表
         ///</summary>
@@ -129,7 +127,7 @@ namespace CustomDropDownListBox
         ///</summary>
         ///<parm name = "*sender">被点击的的对象</parm>
         void CustomSetPosition(Node *node,
-                         Point point);
+                               Point point);
         
     private:
         Menu *main_menu_;    //下拉选项列表的集合

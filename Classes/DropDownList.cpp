@@ -107,8 +107,8 @@ namespace CustomDropDownListBox {
                                   Event *event)
     {
         //获取点击位置
-        auto locInView = touch->getLocationInView();
-        auto location = Director::sharedDirector()->convertToGL(locInView);
+        auto location_in_view = touch->getLocationInView();
+        auto location = Director::sharedDirector()->convertToGL(location_in_view);
         
         //控制台输出被点击的位置
         log("BEGAN----------");
@@ -199,7 +199,7 @@ namespace CustomDropDownListBox {
                                            SEL_MenuHandler(&DropDownList::OnSelected));
         
         label->setPosition(Point(main_menu_cell_size_.width / 2,
-                                  main_menu_cell_size_.height / 2));
+                                 main_menu_cell_size_.height / 2));
         item->addChild(label);
         //select_labels_是向量，select_labels_.size()表示其包含元素的个数
         item->setTag((int)select_labels_.size() - 1);
