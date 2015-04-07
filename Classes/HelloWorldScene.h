@@ -15,6 +15,8 @@ public:
     // a selector callback
     void menuCloseCallback(cocos2d::Ref* pSender);
     
+    void CallbackShowMenu(Ref* sender);
+    
     // implement the "static create()" method manually
     CREATE_FUNC(HelloWorld);
 };//class HelloWorld : public cocos2d::Layer

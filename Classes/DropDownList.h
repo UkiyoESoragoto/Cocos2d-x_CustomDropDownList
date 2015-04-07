@@ -54,7 +54,7 @@ namespace CustomDropDownListBox
     class DropDownList : public Layer
     {
     public:
-        DropDownList(LabelTTF *label,
+        DropDownList(Label *label,
                      Size show_label_size,
                      Size main_menu_cell_size);
         ~DropDownList();
@@ -69,7 +69,7 @@ namespace CustomDropDownListBox
         ///</summary>
         ///<parm name = "*label">添加一个label作为默认显示</parm>
         ///<parm name = "size">默认尺寸</parm>
-        static DropDownList * Create(LabelTTF *label,
+        static DropDownList * Create(Label *label,
                                      Size show_label_size,
                                      Size main_menu_cell_size);
         
@@ -109,13 +109,13 @@ namespace CustomDropDownListBox
         ///添加新的Label以冒充下拉菜单
         ///</summary>
         ///<parm name = "*label">冒充菜单用的label素材</parm>
-        void AddLabel(LabelTTF *label);
+        void AddLabel(Label *label);
         
         ///<summary>
         ///下拉列表中的项被选中
         ///</summary>
         ///<parm name = "*sender">被点击的的对象</parm>
-        void OnSelected(Object *sender);
+        void OnSelected(Ref *sender);
         
         ///<summary>
         ///关闭下拉列表
@@ -131,8 +131,8 @@ namespace CustomDropDownListBox
         
     private:
         Menu *main_menu_;    //下拉选项列表的集合
-        LabelTTF *show_label_;   //对显示区用label
-        std::vector<LabelTTF *> select_labels_;   //用来冒充下拉列表的label们
+        Label *show_label_;   //对显示区用label
+        std::vector<Label *> select_labels_;   //用来冒充下拉列表的label们
         std::vector<LayerColor *> bg_layers_; //用于设置背景颜色
         bool is_need_show_menu_; //是否已显示了下拉列表
         int last_selected_index_;  //选中下拉列表的index

@@ -57,9 +57,9 @@ bool HelloWorld::init()
     // create and initialize a label
     
     //创建一个label作为下拉菜单的默认选项
-    auto label = LabelTTF::create("Make a Choice",
-                                  "Arial",
-                                  24);
+    auto label = Label::createWithSystemFont("Make a Choice",
+                                             "Arial",
+                                             24);
     //设置大小
     auto box_size = Size(200.0,
                          30.0);
@@ -71,21 +71,21 @@ bool HelloWorld::init()
                                                                      30));
     
     //添加一堆label进去
-    auto label0 = LabelTTF::create("Make a Choice",
-                                   "Arial",
-                                   22);
+    auto label0 = Label::createWithSystemFont("Make a Choice",
+                                              "Arial",
+                                              22);
     list_box->AddLabel(label0);//不知道怎么把默认显示的label添加到选项里，只好再添加一个
-    auto label1 = LabelTTF::create("IOS",
-                                   "Arial",
-                                   22);
+    auto label1 = Label::createWithSystemFont("IOS",
+                                              "Arial",
+                                              22);
     list_box->AddLabel(label1);
-    auto label2 = LabelTTF::create("Android",
-                                   "Arial",
-                                   22);
+    auto label2 = Label::createWithSystemFont("Android",
+                                              "Arial",
+                                              22);
     list_box->AddLabel(label2);
-    auto label3 = LabelTTF::create("Windows Phone",
-                                   "Arial",
-                                   22);
+    auto label3 = Label::createWithSystemFont("Windows Phone",
+                                              "Arial",
+                                              22);
     list_box->AddLabel(label3);
     
     // 设置位置
@@ -102,6 +102,10 @@ bool HelloWorld::init()
     return true;
 }
 
+void HelloWorld::CallbackShowMenu(Ref* sender)
+{
+    this->setPosition(-100, this->getPosition().y);
+}
 
 void HelloWorld::menuCloseCallback(Ref* pSender)
 {

@@ -71,6 +71,8 @@
 		D6B0611B1803AB670077942B /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D6B0611A1803AB670077942B /* CoreMotion.framework */; };
 		EF0A37B51A1DCAFB00816439 /* DropDownList.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EF0A37B31A1DCAFB00816439 /* DropDownList.cpp */; };
 		EF0A37B61A1DCAFB00816439 /* DropDownList.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EF0A37B31A1DCAFB00816439 /* DropDownList.cpp */; };
+		EF2B78401AA4444600FC78EA /* OutsideMenu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EF2B783E1AA4444600FC78EA /* OutsideMenu.cpp */; };
+		EF2B78411AA4444600FC78EA /* OutsideMenu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EF2B783E1AA4444600FC78EA /* OutsideMenu.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -271,6 +273,8 @@
 		D6B0611A1803AB670077942B /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/System/Library/Frameworks/CoreMotion.framework; sourceTree = DEVELOPER_DIR; };
 		EF0A37B31A1DCAFB00816439 /* DropDownList.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = DropDownList.cpp; path = ../Classes/DropDownList.cpp; sourceTree = "<group>"; };
 		EF0A37B41A1DCAFB00816439 /* DropDownList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DropDownList.h; path = ../Classes/DropDownList.h; sourceTree = "<group>"; };
+		EF2B783E1AA4444600FC78EA /* OutsideMenu.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = OutsideMenu.cpp; path = ../Classes/OutsideMenu.cpp; sourceTree = "<group>"; };
+		EF2B783F1AA4444600FC78EA /* OutsideMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OutsideMenu.h; path = ../Classes/OutsideMenu.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -346,6 +350,8 @@
 				1AFAF8B616D35DE700DB1158 /* HelloWorldScene.h */,
 				EF0A37B31A1DCAFB00816439 /* DropDownList.cpp */,
 				EF0A37B41A1DCAFB00816439 /* DropDownList.h */,
+				EF2B783E1AA4444600FC78EA /* OutsideMenu.cpp */,
+				EF2B783F1AA4444600FC78EA /* OutsideMenu.h */,
 			);
 			name = Classes;
 			path = ../classes;
@@ -678,6 +684,7 @@
 				1AFAF8B716D35DE700DB1158 /* AppDelegate.cpp in Sources */,
 				503AE10117EB989F00D1A890 /* main.m in Sources */,
 				EF0A37B51A1DCAFB00816439 /* DropDownList.cpp in Sources */,
+				EF2B78401AA4444600FC78EA /* OutsideMenu.cpp in Sources */,
 				1AFAF8B816D35DE700DB1158 /* HelloWorldScene.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -689,6 +696,7 @@
 				5087E75717EB910900C73F5D /* AppDelegate.cpp in Sources */,
 				5087E75817EB910900C73F5D /* HelloWorldScene.cpp in Sources */,
 				EF0A37B61A1DCAFB00816439 /* DropDownList.cpp in Sources */,
+				EF2B78411AA4444600FC78EA /* OutsideMenu.cpp in Sources */,
 				503AE10517EB98FF00D1A890 /* main.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

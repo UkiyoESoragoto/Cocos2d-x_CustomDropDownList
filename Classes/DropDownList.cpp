@@ -15,7 +15,7 @@ USING_NS_CC;
 NS_CC_BEGIN
 
 namespace CustomDropDownListBox {
-    DropDownList::DropDownList(LabelTTF *label,
+    DropDownList::DropDownList(Label *label,
                                Size show_label_size,
                                Size main_menu_cell_size) :
     show_label_(label),
@@ -62,7 +62,7 @@ namespace CustomDropDownListBox {
         log("listener ready");
     }//DropDownList::OpenListener
     
-    DropDownList *DropDownList::Create(LabelTTF *label,
+    DropDownList *DropDownList::Create(Label *label,
                                        Size show_label_size,
                                        Size main_menu_cell_size)
     {
@@ -108,7 +108,7 @@ namespace CustomDropDownListBox {
     {
         //获取点击位置
         auto location_in_view = touch->getLocationInView();
-        auto location = Director::sharedDirector()->convertToGL(location_in_view);
+        auto location = Director::getInstance()->convertToGL(location_in_view);
         
         //控制台输出被点击的位置
         log("BEGAN----------");
@@ -179,7 +179,7 @@ namespace CustomDropDownListBox {
         }
     }//DropDownList::onTouchEnded
     
-    void DropDownList::AddLabel(LabelTTF *label)
+    void DropDownList::AddLabel(Label *label)
     {
         auto *normal_color = LayerColor::create(kDropDownListNormalColor4B,
                                                 main_menu_cell_size_.width,
@@ -192,6 +192,9 @@ namespace CustomDropDownListBox {
         select_labels_.push_back(label);
         
         //生成main_menu_的元素
+//        auto ite = MenuItemLabel::create(<#cocos2d::Node *label#>, <#const ccMenuCallback &callback#>)
+//        MenuItemSprite::Create(<#cocos2d::Label *label#>, <#cocos2d::Size show_label_size#>, <#cocos2d::Size main_menu_cell_size#>)
+//        MenuItemSprite::create()
         auto item = MenuItemSprite::create(normal_color,
                                            pSelectedColor,
                                            NULL,
@@ -205,11 +208,10 @@ namespace CustomDropDownListBox {
         item->setTag((int)select_labels_.size() - 1);
         item->setPosition(0,
                           - (int)select_labels_.size() * main_menu_cell_size_.height);
-        
         main_menu_->addChild(item);
     }//DropDownList::AddLabel
     
-    void DropDownList::OnSelected(Object *sender)
+    void DropDownList::OnSelected(Ref *sender)
     {
         auto item = dynamic_cast<MenuItem *>(sender);
         
